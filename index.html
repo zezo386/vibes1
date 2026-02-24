@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📐 shape area · height & width</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+        body {
+            background: linear-gradient(145deg, #f0f4fa 0%, #e6ecf5 100%);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 2.5rem;
+            box-shadow: 0 25px 40px -10px rgba(0, 20, 30, 0.3), 
+                        0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+            width: min(500px, 100%);
+            padding: 2rem 2rem 2.5rem;
+        }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: #13294b;
+            margin: 0 0 0.3rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        h1 span {
+            background: #13294b;
+            color: blue;
+            font-size: 1rem;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            font-weight: 450;
+            letter-spacing: 0.2px;
+        }
+        .sub {
+            color: #2c3e66;
+            font-size: 1rem;
+            margin-top: 0;
+            margin-bottom: 2rem;
+            border-left: 4px solid #4f7df3;
+            padding-left: 1rem;
+            font-weight: 350;
+        }
+        .input-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2.2rem;
+        }
+        .input-field {
+            flex: 1 1 130px;
+        }
+        .input-field label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #1e3a5f;
+            margin-bottom: 0.4rem;
+        }
+        .input-field input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 2px solid rgba(30, 58, 95, 0.2);
+            border-radius: 2rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+            background: purple;
+            transition: 0.2s;
+            outline: none;
+            color: #0a1f33;
+        }
+        .input-field input:focus {
+            border-color: #4f7df3;
+            box-shadow: 0 0 0 4px rgba(79, 125, 243, 0.15);
+        }
+        .input-field input[type=number]::-webkit-inner-spin-button {
+            opacity: 0.6;
+        }
+        .shape-panel {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 2rem;
+            padding: 1.5rem 1rem 1rem 1rem;
+            margin-bottom: 1.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 6px 12px -6px rgba(0,0,0,0.1);
+        }
+        .shape-selector {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+        .shape-btn {
+            background: cyan;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 3rem;
+            font-size: 1.1rem;
+            font-weight: 550;
+            color: #1e3a5f;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+            border: 1.5px solid transparent;
+            transition: all 0.15s ease;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            line-height: 1;
+        }
+        .shape-btn:hover {
+            background: #eef3fe;
+            border-color: #9fb7f0;
+            transform: scale(0.97);
+        }
+        .shape-btn.active {
+            background: #13294b;
+            color: white;
+            border-color: #13294b;
+            box-shadow: 0 12px 16px -8px rgba(19, 41, 75, 0.3);
+            font-weight: 600;
+        }
+        .shape-icon {
+            font-size: 1.3rem;
+        }
+        .info-badge {
+            text-align: center;
+            font-size: 1rem;
+            color: #1e3a5f;
+            background: rgba(79, 125, 243, 0.1);
+            padding: 0.55rem 0.5rem;
+            border-radius: 3rem;
+            margin: 1rem 0 0.3rem;
+            font-weight: 500;
+        }
+        .info-badge span {
+            font-weight: 700;
+            background: #13294b;
+            color: white;
+            padding: 0.2rem 0.9rem;
+            border-radius: 30px;
+            margin-left: 8px;
+            font-size: 0.9rem;
+        }
+        .result-box {
+            background: #13294b;
+            border-radius: 2rem;
+            padding: 1.4rem 1.8rem;
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            box-shadow: 0 18px 25px -12px #0a1f33;
+            border: 1px solid #5671a5;
+        }
+        .result-label {
+            color: #b7cdff;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            font-size: 1.2rem;
+        }
+        .result-value {
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1.2;
+            word-break: break-word;
+            text-align: right;
+        }
+        .result-unit {
+            font-size: 1.2rem;
+            color: #a2bbf0;
+            margin-left: 8px;
+            font-weight: 400;
+        }
+        .footnote {
+            display: flex;
+            justify-content: space-between;
+            color: #3c4f70;
+            font-size: 0.9rem;
+            margin-top: 0.9rem;
+            padding: 0 0.7rem;
+        }
+        .clear-btn {
+            background: none;
+            border: 1px dashed #9eb0d0;
+            padding: 0.4rem 1.2rem;
+            border-radius: 3rem;
+            color: #1e3a5f;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .clear-btn:hover {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid #4f7df3;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h1>
+        ⬛📏 area tool
+        <span>h × w</span>
+    </h1>
+    <div class="sub">height & width → area of common shapes</div>
+
+    <!-- inputs -->
+    <div class="input-group">
+        <div class="input-field">
+            <label>📐 height (h)</label>
+            <input type="number" id="heightInput" value="5" step="any" placeholder="e.g. 5">
+        </div>
+        <div class="input-field">
+            <label>📏 width (w)</label>
+            <input type="number" id="widthInput" value="3" step="any" placeholder="e.g. 3">
+        </div>
+    </div>
+
+    <!-- shape selector with icons -->
+    <div class="shape-panel">
+        <div class="shape-selector">
+            <button class="shape-btn active" id="rectBtn" data-shape="rectangle">
+                <span class="shape-icon">⬛</span> rectangle
+            </button>
+            <button class="shape-btn" id="triBtn" data-shape="triangle">
+                <span class="shape-icon">🔺</span> triangle
+            </button>
+            <button class="shape-btn" id="paraBtn" data-shape="parallelogram">
+                <span class="shape-icon">🔷</span> parallelogram
+            </button>
+            <button class="shape-btn" id="ellipseBtn" data-shape="ellipse">
+                <span class="shape-icon">🟢</span> ellipse
+            </button>
+        </div>
+        <div class="info-badge" id="formulaHint">
+            ⚡ area = <span id="formulaText">height × width</span>
+        </div>
+    </div>
+
+    <!-- result -->
+    <div class="result-box">
+        <span class="result-label" id="resultShape">rectangle area</span>
+        <div>
+            <span class="result-value" id="areaValue">15</span>
+            <span class="result-unit">sq units</span>
+        </div>
+    </div>
+
+    <!-- extra row: current shape + clear -->
+    <div class="footnote">
+        <span id="shapeDescription">🟦 height × width</span>
+        <button class="clear-btn" id="clearInputs">⟲ clear</button>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // DOM elements
+        const heightInput = document.getElementById('heightInput');
+        const widthInput = document.getElementById('widthInput');
+        const areaValueSpan = document.getElementById('areaValue');
+        const resultShapeSpan = document.getElementById('resultShape');
+        const shapeDescriptionSpan = document.getElementById('shapeDescription');
+        const formulaHintSpan = document.getElementById('formulaText');
+
+        // shape buttons
+        const rectBtn = document.getElementById('rectBtn');
+        const triBtn = document.getElementById('triBtn');
+        const paraBtn = document.getElementById('paraBtn');
+        const ellipseBtn = document.getElementById('ellipseBtn');
+        const shapeButtons = [rectBtn, triBtn, paraBtn, ellipseBtn];
+
+        // current active shape (default rectangle)
+        let currentShape = 'rectangle';
+
+        // ----- helper: remove active class from all buttons -----
+        function removeActiveClass() {
+            shapeButtons.forEach(btn => btn.classList.remove('active'));
+        }
+
+        // ----- update UI (formula hint, description, result label) based on shape -----
+        function updateShapeMetadata(shape) {
+            // formula hint in the badge
+            let formula = '';
+            let description = '';
+            let resultLabel = '';
+
+            switch (shape) {
+                case 'rectangle':
+                    formula = 'height × width';
+                    description = '🟦 rectangle · h × w';
+                    resultLabel = 'rectangle area';
+                    break;
+                case 'triangle':
+                    formula = '(height × width) ÷ 2';
+                    description = '🔺 triangle · (h × w)/2';
+                    resultLabel = 'triangle area';
+                    break;
+                case 'parallelogram':
+                    formula = 'height × width';
+                    description = '🔷 rhombus · h × w';
+                    resultLabel = 'rhombus area';
+                    break;
+                case 'ellipse':
+                    formula = 'π × (h/2) × (w/2)';
+                    description = '🟢 ellipse · π × (h/2)(w/2)';
+                    resultLabel = 'ellipse area';
+                    break;
+                default: // fallback
+                    formula = 'height × width';
+                    description = 'rectangle';
+                    resultLabel = 'area';
+            }
+            formulaHintSpan.textContent = formula;
+            shapeDescriptionSpan.textContent = description;
+            resultShapeSpan.textContent = resultLabel;
+        }
+
+        // ----- main area calculation function -----
+        function computeArea() {
+            // read values (allow decimals, negative fallback)
+            let h = parseFloat(heightInput.value);
+            let w = parseFloat(widthInput.value);
+
+            // if either is not a valid positive number, treat as 0 (or show message)
+            const isInvalid = isNaN(h) || isNaN(w) || h < 0 || w < 0;
+            if (isInvalid) {
+                // show friendly placeholder, but we can still try to use 0 for safe calculation
+                // we'll display 0.00 but also indicate invalid input? we'll just use 0.
+                h = isNaN(h) || h < 0 ? 0 : h;
+                w = isNaN(w) || w < 0 ? 0 : w;
+            }
+
+            let area = 0;
+
+            switch (currentShape) {
+                case 'rectangle':
+                case 'parallelogram':     // base * height (where width is base)
+                    area = h * w;
+                    break;
+                case 'triangle':
+                    area = 0.5 * h * w;
+                    break;
+                case 'ellipse':
+                    // area = π * (h/2) * (w/2)  = (π * h * w) / 4
+                    area = (Math.PI * h * w) / 4;
+                    break;
+                default:
+                    area = h * w;
+            }
+
+            // if h and w are zero and no meaningful input, area is zero.
+            // format output: show integer if .00, else up to 4 decimals
+            let formattedArea;
+            if (Number.isInteger(area) && area.toString().length < 10) {
+                formattedArea = area.toString();
+            } else {
+                // round to 4 decimal max, but remove trailing .0000 if not needed
+                const rounded = Math.round((area + Number.EPSILON) * 10000) / 10000;
+                if (rounded === Math.floor(rounded)) {
+                    formattedArea = rounded.toString();
+                } else {
+                    formattedArea = rounded.toFixed(4).replace(/\.?0+$/, ''); // remove trailing zeros
+                }
+            }
+
+            // if area is negative (shouldn't happen due to checks), but just in case:
+            if (area < 0) areaValueSpan.textContent = '0';
+            else areaValueSpan.textContent = formattedArea;
+        }
+
+        // ----- set active shape and recalc -----
+        function setActiveShape(shape, activeButton) {
+            currentShape = shape;
+            removeActiveClass();
+            activeButton.classList.add('active');
+            updateShapeMetadata(shape);
+            computeArea(); // update calculation
+        }
+
+        // ----- event listeners for shape buttons -----
+        rectBtn.addEventListener('click', () => setActiveShape('rectangle', rectBtn));
+        triBtn.addEventListener('click', () => setActiveShape('triangle', triBtn));
+        paraBtn.addEventListener('click', () => setActiveShape('parallelogram', paraBtn));
+        ellipseBtn.addEventListener('click', () => setActiveShape('ellipse', ellipseBtn));
+
+        // ----- input changes: realtime update -----
+        heightInput.addEventListener('input', computeArea);
+        widthInput.addEventListener('input', computeArea);
+
+        // ----- clear button: reset inputs to default 5 and 3 (nice rectangle) -----
+        document.getElementById('clearInputs').addEventListener('click', function() {
+            heightInput.value = 5;
+            widthInput.value = 3;
+            computeArea();
+        });
+
+        // ----- initial setup: ensure rectangle active and metadata synced -----
+        // (already active by class, but we synchronise variables)
+        // make sure currentShape is rectangle, metadata consistent
+        currentShape = 'rectangle';   // default
+        removeActiveClass();
+        rectBtn.classList.add('active');
+        updateShapeMetadata('rectangle');
+        computeArea();   // 5 * 3 = 15
+
+        // small extra: handle negative/empty nicely using input event (already compute)
+        // if user deletes content, parseFloat becomes NaN → area becomes 0 via our logic.
+        // but we want to show something like '0' instead of nothing. computeArea already covers.
+
+        // additional: if input is cleared, show 0 but keep placeholder.
+        // For better UX, we can also set a minimum 0 in html, but we use js.
+        heightInput.addEventListener('blur', function() {
+            if (heightInput.value === '' || parseFloat(heightInput.value) < 0) {
+                heightInput.value = 0;
+                computeArea();
+            }
+        });
+        widthInput.addEventListener('blur', function() {
+            if (widthInput.value === '' || parseFloat(widthInput.value) < 0) {
+                widthInput.value = 0;
+                computeArea();
+            }
+        });
+
+        // small fix: when empty string -> shows NaN briefly; blur sets to 0.
+        // also when user types letter, blur replaces with 0.
+        // but we also want to keep negative numbers away. blur handles.
+
+        // support initial negative? blur will fix.
+        // if user types "e" or something, blur set to 0.
+        // We also prevent entering letters via input type=number, but blur fallback.
+    })();
+</script>
+</body>
+</html>
